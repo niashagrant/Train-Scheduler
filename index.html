@@ -1,0 +1,142 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Bootstrap CDN-->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Firebase References -->
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-database.js"></script>
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid text-center">
+      <div class="container">
+        <h1 class="display-4">
+          All Abord!
+          <img
+            id="trainIcon"
+            src="https://image.flaticon.com/icons/png/512/64/64332.png"
+            alt=""
+          />
+        </h1>
+        <p class="lead">
+          Chugga Chugga Choo Choo
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <img
+        id="trainPic"
+        src="https://www.completenorthamerica.com/cnacms/wp-content/uploads/2018/09/Canadian-Rockies-Adventure-Rocky-Mountaineer-Train.jpg"
+        alt=""
+      />
+    </div>
+
+    <div class="row">
+      <div class="col-4">
+        <div class="card">
+          <h5 class="card-header">Add Train</h5>
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <label for="formGroupExampleInput">Train Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="empName"
+                  placeholder="Amtrak"
+                />
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput2">Destination</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="role"
+                  placeholder="Tucson"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="formGroupExampleInput"
+                  >First Train Time (HH:mm - Military Time)</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="startDate"
+                  placeholder="13:00"
+                />
+              </div>
+              <div class="form-group">
+                <label for="monthlyrate">Frequency (min)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="monthlyRate"
+                  placeholder="30"
+                />
+              </div>
+            </form>
+            <button href="#" class="btn btn-primary" id="submitData">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="card">
+          <h5 class="card-header">Current Train Schedule</h5>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Train Name</th>
+                  <th scope="col">Destination</th>
+                  <th scope="col">Frequency</th>
+                  <th scope="col">Next Arrival</th>
+                  <th scope="col">Minutes Away</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                  <td>@mdo</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                  <td>@fat</td>
+                  <td>@fat</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/javascript/app.js"></script>
+  </body>
+</html>
