@@ -26,7 +26,7 @@ $(document).ready(function() {
     var trainTime = $("#trainTime")
       .val()
       .trim();
-    var minutesAway = 0;
+
     var trainFrequency = $("#frequency")
       .val()
       .trim();
@@ -46,5 +46,36 @@ $(document).ready(function() {
     console.log(trainInfo.time);
     console.log(trainInfo.frequency);
     console.log(trainInfo.minutes);
+  });
+
+  database.ref().on("child_added", function(snapshot) {
+    var newTrainName = snapshot.val().name;
+    var newTrainDestination = snapshot.val().destination;
+    var newTrainTime = snapshot.val().time;
+    var newTrainFrequency = snapshot.val().frequency;
+
+    var currentTime = moment();
+
+    var timeConverted = moment(newTrainTime, "HH:mm").subtract(1, "years");
+
+    var timeDifference = moment().diff(moment(timeConverted), "minutes");
+
+    var remainingTime = timeDifference % newTrainFrequency;
+
+    var timeUntilNewTrain = newTrainFrequency - remainingTime;
+
+    var nextTrain = moment().add(timeUntilNewTrain, "minutes");
+    var nextTrainArrival = moment(nextTrain).format("HH:mm");
+    console.log(currentTime);
+
+    $("#trainData").append(`
+    <tr>
+    <td>${newTrainName}</td>
+    <td>${newTrainDestination}</td>
+    <td>${newTrainFrequency}</td>
+    <td>${nextTrainArrival}</td>
+    <td>${timeUntilNewTrain}</td>
+    
+  </tr>`);
   });
 });
