@@ -13,6 +13,9 @@ $(document).ready(function() {
   firebase.initializeApp(firebaseConfig);
 
   var database = firebase.database();
+  var timeNow = moment().format("HH:mm");
+  console.log(timeNow);
+  $("#curentTime").append(`${timeNow}`);
 
   $("#submitTrainData").on("click", function(event) {
     event.preventDefault();
@@ -23,7 +26,7 @@ $(document).ready(function() {
     var trainDestination = $("#destination")
       .val()
       .trim();
-    var trainTime = $("#trainTime")
+    var firstTrainTime = $("#trainTime")
       .val()
       .trim();
 
@@ -34,9 +37,8 @@ $(document).ready(function() {
     var trainInfo = {
       name: trainName,
       destination: trainDestination,
-      time: trainTime,
-      frequency: trainFrequency,
-      minutes: minutesAway
+      time: firstTrainTime,
+      frequency: trainFrequency
     };
 
     database.ref().push(trainInfo);
@@ -45,37 +47,44 @@ $(document).ready(function() {
     console.log(trainInfo.destination);
     console.log(trainInfo.time);
     console.log(trainInfo.frequency);
-    console.log(trainInfo.minutes);
+
+    $("#trainName").val("");
+    $("#destination").val("");
+    $("#trainTime").val("");
+    $("#frequency").val("");
   });
 
-  database.ref().on("child_added", function(snapshot) {
-    var newTrainName = snapshot.val().name;
-    var newTrainDestination = snapshot.val().destination;
-    var newTrainTime = snapshot.val().time;
-    var newTrainFrequency = snapshot.val().frequency;
+  database.ref().on("child_added", function(childSnapshot) {
+    var currentTime = moment().format("HH:mm");
 
-    var currentTime = moment();
-
-    var timeConverted = moment(newTrainTime, "HH:mm").subtract(1, "years");
-
-    var timeDifference = moment().diff(moment(timeConverted), "minutes");
-
-    var remainingTime = timeDifference % newTrainFrequency;
-
-    var timeUntilNewTrain = newTrainFrequency - remainingTime;
-
-    var nextTrain = moment().add(timeUntilNewTrain, "minutes");
-    var nextTrainArrival = moment(nextTrain).format("HH:mm");
     console.log(currentTime);
+    var trainName = childSnapshot.val().name;
+    var trainDestination = childSnapshot.val().destination;
+    var firstTrainTime = childSnapshot.val().time;
+    var trainFrequency = childSnapshot.val().frequency;
 
+    var firstTrainTimeCoversion = moment(firstTrainTime, "hh:mm").subtract(
+      1,
+      "years"
+    );
+
+    var trainTimeDifference = moment().diff(
+      moment(firstTrainTimeCoversion),
+      "minutes"
+    );
+    var timeLeftOver = trainTimeDifference % trainFrequency;
+    var minutesAway = trainFrequency - timeLeftOver;
+    var nextArrivingTrain = moment()
+      .add(minutesAway, "minutes")
+      .format("hh:mm");
     $("#trainData").append(`
-    <tr>
-    <td>${newTrainName}</td>
-    <td>${newTrainDestination}</td>
-    <td>${newTrainFrequency}</td>
-    <td>${nextTrainArrival}</td>
-    <td>${timeUntilNewTrain}</td>
-    
-  </tr>`);
+      <tr>
+      <td>${trainName}</td>
+      <td>${trainDestination}</td>
+      <td>${trainFrequency}</td>
+      <td>${nextArrivingTrain}</td>
+      <td>${minutesAway}</td>
+      
+    </tr>`);
   });
 });
